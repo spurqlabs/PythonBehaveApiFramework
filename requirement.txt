@@ -1,0 +1,3 @@
+allure-behave==2.10.0
+allure-python-commons==2.10.0
+behave==1.2.6

@@ -1,0 +1,45 @@
+name: Python API CI/CD Pipeline
+
+
+on:
+  push:
+   branches: ["main"]
+#    schedule:
+#       - cron: '00 12 * * *'
+ 
+
+
+jobs:
+ build:
+
+  runs-on: windows-latest
+
+  steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.8.9'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip && pip install -r requirement.txt
+     
+    - name: install allure
+      run:  npm install -g allure-commandline
+      continue-on-error: true
+    
+    - name: run test
+      run: behave Features -f allure_behave.formatter:AllureFormatter -o Report_Json
+      working-directory: .
+      continue-on-error: true
+    - name: html report
+      run: allure generate Report_Json -o Report_Html --clean
+      continue-on-error: true
+  
+    - uses: actions/upload-artifact@v2
+#       if: ${{ failure() && steps.diff.conclusion == 'failure' }}
+      with:
+          name: HTML reports
+          path: Report_Html
+      continue-on-error: true

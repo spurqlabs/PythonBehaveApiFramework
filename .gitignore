@@ -109,6 +109,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+misc.xml/
 
 # Spyder project settings
 .spyderproject
@@ -127,3 +128,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Report Folders
+Report_Html/
+Report_Json/
